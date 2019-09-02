@@ -49,6 +49,8 @@ dcsv_file.close()
 
 total_file = open('./target/' + 'total.tex', 'w')
 total_file.write("\\bigskip \n\\\\ \n\\bigskip \n\\Large{\\textbf{Total: \\theCurrency \\$}" + str(dtotal + ototal) + "} \n")
+total_file.write("\n %\\includegraphics[scale=1]{receipts.pdf} %%uncomment and modify for receipts")
+
 total_file.close()
 
 with open('./target/main.tex','w') as outfile:
