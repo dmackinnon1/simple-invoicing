@@ -1,5 +1,5 @@
 **/*.csv
-./target/*.pdf
-./target/*.tex
+/target/*.pdf
+/target/*.tex
 
 

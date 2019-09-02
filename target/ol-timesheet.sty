@@ -1,0 +1,95 @@
+%TEX root=draft-template.tex
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{spreadtab}
+\RequirePackage[en-US,calc]{datetime2}
+\DTMlangsetup{ord=raise}
+\RequirePackage{tikz}
+\RequirePackage{csvsimple}
+\usetikzlibrary{shapes,calendar,calc,patterns,positioning,matrix}
+
+\newcommand{\InvoiceMonth}[1]{%
+  \def\@invoicemonth{#1}%
+%  \DTMsavedate{firstday}{#1-01}%
+%  \DTMsavedate{lastday}{#1-last}%
+}
+\newcommand{\Contractor}[1]{\def\@contractor{#1}}
+\newcommand{\ContractorEmail}[1]{\def\@contractoremail{#1}}
+%\newcommand{\HalfDayRate}[1]{\def\@halfdayrate{#1}}
+\newcommand{\Currency}[1]{\def\@currency{#1}}
+\newcommand{\HourlyRate}[1]{\def\@hourlyrate{#1}}
+
+%\newcommand{\theHalfDayRate}{\@halfdayrate}
+\newcommand{\theHourlyRate}{\@hourlyrate}
+\newcommand{\theCurrency}{\@currency}
+
+\def\dhlist{0/M,1/T,2/W,3/T,4/F,5/S,6/S}
+\tikzoption{day headings}{\tikzstyle{day heading}=[#1]}
+\tikzstyle{day heading}=[]
+\tikzstyle{day letter headings}=[
+  yshift=0.5em,
+  month code={\node[every month,yshift=1.5em]
+{\tikzmonthtext};},
+  execute before day scope={\ifdate{day of month=1}{%
+    \pgfmathsetlength{\pgf@ya}{\tikz@lib@cal@yshift}%
+    \pgfmathsetlength\pgf@xa{\tikz@lib@cal@xshift}%
+    \pgftransformyshift{-\pgf@ya}
+    \foreach \d/\l in \dhlist {
+      \pgf@xa=\d\pgf@xa%
+      \pgftransformxshift{\pgf@xa}%
+      \pgftransformyshift{0.85\pgf@ya}%
+      \node[every day,day heading,font=\bfseries]{\l};%
+    }
+    }{}%
+  }%
+]
+\newcounter{workedhalfday}
+\newcounter{totalhours}
+
+\newcommand{\MonthCalendar}{%
+\begin{tikzpicture}
+\calendar (cal) [week list,day letter headings,
+%month label above centered,month text={\%mt \%y0},
+day xshift=2.5em,day yshift=2.5em,align=center,
+every day/.append style={text width=1em,align=center},
+dates=\@invoicemonth-01 to \@invoicemonth-last];
+\node (legendhead) [font=\bfseries,inner xsep=0pt,outer sep=0pt,anchor=south west] at (18em,-3em) {Legend};
+\matrix [%matrix of nodes,
+matrix anchor=north west,nodes={anchor=west},
+  ampersand replacement=\&,below=0pt of legendhead.south west] {
+\node[fill,circle,pattern=north east lines,opacity=0.45,text width=1em]{}; \& \node{Full day};\\
+\node[text width=1em,anchor=north west](d1){};%
+\fill[pattern=north east lines,opacity=0.45] ($(d1) + (0:1.85ex)$) arc (0:180:1.85ex);| \& \node{Morning only};\\
+\node[text width=1em,anchor=south west](d2){};%
+\fill[pattern=north east lines,opacity=0.45] ($(d2) + (0:1.85ex)$) arc (0:-180:1.85ex);| \& \node{Afternoon/evening only};\\
+};
+\setcounter{workedhalfday}{0}
+\csvreader{days.csv}{DATE=\TSDATE,STAT=\TSSTAT}{%
+  \ifcsvstrequal{\TSSTAT}{F}{%
+    \node[fill,circle,pattern=north east lines,opacity=0.45,inner sep=1.3ex,outer sep=0pt]
+        at (cal-\TSDATE) {};
+    \addtocounter{workedhalfday}{2}
+  }{\ifcsvstrequal{\TSSTAT}{A}{%
+      \fill[pattern=north east lines,opacity=0.45] ($(cal-\TSDATE) + (0:1.8ex)$) arc (0:180:1.8ex);
+      \addtocounter{workedhalfday}{1}
+    }{%
+      \fill[pattern=north east lines,opacity=0.45] ($(cal-\TSDATE) + (0:1.8ex)$) arc (0:-180:1.8ex);
+      \addtocounter{workedhalfday}{1}
+  }}
+}
+\end{tikzpicture}
+}
+
+
+\AtBeginDocument{%
+  \title{Overleaf Contractor Monthly Timesheet}
+  \maketitle
+
+  \begin{tabular}{>{\bfseries}l l}
+  Contractor: & \@contractor\\
+  Contractor Email: & \@contractoremail\\
+  Invoice Date: & \DTMdate{\@invoicemonth-last} \\
+  Period: & \DTMdate{\@invoicemonth-01} --- \DTMdate{\@invoicemonth-last}\\
+  Hourly Rate: & \@currency\@hourlyrate
+  \end{tabular}
+}

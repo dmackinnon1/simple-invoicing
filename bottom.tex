@@ -1,0 +1,18 @@
+\Contractor{Dan MacKinnon}
+\ContractorEmail{dan.mackinnon@overleaf.com}
+\HourlyRate{56} % Enter your hourly rate here; default 50
+
+\Currency{CDN\,}
+\usepackage{adjustbox}
+\begin{document}
+ 
+\begin{center}
+\section*{Days Worked at a Glance}
+\MonthCalendar 
+\end{center}
+\section*{Hours Worked and Totals}
+\adjustbox{valign=T}{\input{days.tex}}
+\hfill
+\adjustbox{valign=T}{\input{other.tex}}
+\input{total.tex}
+\end{document}

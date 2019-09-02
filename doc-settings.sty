@@ -1,0 +1,80 @@
+\RequirePackage[babel]{microtype}
+% \RequirePackage{newtxtext,newtxmath}
+\RequirePackage{caladea}
+\RequirePackage[sfdefault,lf]{carlito}
+\renewcommand{\ttdefault}{lmtt}
+\RequirePackage{amssymb}
+
+\RequirePackage[a4paper,margin=2.5cm,footskip=1.5\baselineskip,headheight=30pt,headsep=1em]{geometry}
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage{etoolbox}
+
+\RequirePackage{enumitem}
+\setlist{topsep=0pt,nosep}
+\setlist[itemize,2]{label=\large\textopenbullet}
+\setlist[itemize,3]{label=$\vcenter{\hbox{\rule{.3ex}{.3ex}}}$}
+
+\RequirePackage{float}
+\RequirePackage{caption}
+\captionsetup*{labelformat=empty}
+
+\RequirePackage{scrlayer-scrpage}
+\RequirePackage{graphicx}
+\RequirePackage{lastpage}
+\rohead{\includegraphics[width=8em]{Overleaf_main_logo}}
+\lofoot{\footnotesize\textit{This document is for internal use only.}}
+\rofoot{\footnotesize\textit{Last Updated \today.}}
+\cofoot{\footnotesize\upshape\thepage\ of \pageref*{LastPage}}
+\pagestyle{scrheadings}
+
+\RequirePackage{xcolor}
+\definecolor{OLGreen}{HTML}{4F9C45}
+\definecolor{OLDarkGreen}{HTML}{1A6325}
+\definecolor{OLGray}{HTML}{333333}
+\definecolor{OLLightGray}{HTML}{989898}
+\definecolor{OLBgGray}{HTML}{F5F5F5}
+\definecolor{OLWhiteGray}{HTML}{DFDFDF}
+
+\normalsize
+
+\RequirePackage{mdframed}
+\RequirePackage{soul}
+\newlength{\tmplength}
+\newlength{\currentparskip}
+\newcommand{\QuestionAndResponse}[2]{%
+  \setlength{\currentparskip}{\parskip}
+  \begin{minipage}{\linewidth}
+  \textbf{#1}\par
+  \smallskip
+  \setlength{\fboxsep}{1ex}
+  \ifstrequal{#2}{}
+  {\fcolorbox{black}{OLGreen!10}{\begin{minipage}[t][2\baselineskip]{\linewidth}~\end{minipage}}}
+  {\fbox{\begin{minipage}[t]{\linewidth}%
+  \setlength{\parskip}{\currentparskip}%
+  \itshape #2\end{minipage}}}
+  \end{minipage}\vspace{1.25\bigskipamount}%
+}
+
+\RequirePackage{needspace}
+\newenvironment{EmailMessage}[1]{%
+  \Needspace{5\baselineskip}
+  \textbf{#1}%
+  \begin{mdframed}[topline=false,rightline=false,bottomline=false,linewidth=2pt,linecolor=gray!40]
+}{%
+  \end{mdframed}\medskip
+}
+
+\setcounter{secnumdepth}{3}
+\renewcommand{\@maketitle}{\raggedright\sffamily%
+{\huge\bfseries\@title\par}\vskip\baselineskip}
+\renewcommand*{\titlepagestyle}{scrheadings}
+
+% \RedeclareSectionCommand[
+%   beforeskip=-\baselineskip,
+%   afterskip=.5\baselineskip]{section}
+  
+\addtokomafont{section}{\color{OLDarkGreen}}
+\addtokomafont{subsection}{\color{OLDarkGreen}}
+\RequirePackage{hyperref}
+\hypersetup{colorlinks,urlcolor=OLGreen,linkcolor=OLGreen!50!black}
+\renewcommand\UrlFont{\sffamily}
