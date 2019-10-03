@@ -38,17 +38,17 @@ with open(fcsv) as csv_file:
                 ototal += float(row[5])
         line_count += 1
 
-dtex_file.write("\\midrule \n \\textbf{Total} & &\\$" + str(dtotal) + "\\\\ \n")        
+dtex_file.write("\\midrule \n \\textbf{Total} & &\\$" + str('%.2f' % dtotal) + "\\\\ \n")        
 dtex_file.write("\\bottomrule \n \\end{tabular}")
 dtex_file.close()
 
-otex_file.write("\\midrule \n \\textbf{Total} & \\$" + str(ototal) + "\\\\ \n" )        
+otex_file.write("\\midrule \n \\textbf{Total} & \\$" + str('%.2f' % ototal) + "\\\\ \n" )        
 otex_file.write("\\bottomrule \n \\end{tabular}")
 otex_file.close()
 dcsv_file.close()
 
 total_file = open('./target/' + 'total.tex', 'w')
-total_file.write("\\bigskip \n\\\\ \n\\bigskip \n\\Large{\\textbf{Total: \\theCurrency \\$}" + str(dtotal + ototal) + "} \n")
+total_file.write("\\bigskip \n\\\\ \n\\bigskip \n\\Large{\\textbf{Total: \\theCurrency \\$}" + str('%.2f' %(dtotal + ototal)) + "} \n")
 total_file.write("\n %\\includegraphics[scale=1]{receipts.pdf} %%uncomment and modify for receipts")
 
 total_file.close()
