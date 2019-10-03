@@ -13,7 +13,7 @@ date,stat,is_daily,hours,rate,charge,description
 - **description** is a short description of the invoice charge
 - **is_daily** is TRUE for daily rate charge entries, FALSE for additional expenses
 
-Running *python invoice.py <YEAR>-<MONTH>* will generate additional files in the *target* directory.
+Running *python invoice.py YEAR-MONTH* will generate additional files in the *target* directory.
 Zipping up the target directory and uploading it to Overleaf as a project will generate the invoice file.
 > zip -r target target
 
