@@ -2,7 +2,7 @@
 Local scripts to produce LaTeX formatted invoices from provided csv files.
 
 
-Provide a CSV file named <YEAR>-<MONTH>.csv in the same folder as invoice.py, where YEAR is four digit and MONTH is two digit. The
+Provide a CSV file named YEAR-MONTH.csv in the same folder as invoice.py, where YEAR is four digit and MONTH is two digit. The
 CSV file must have headers:
 
 date,stat,is_daily,hours,rate,charge,description
